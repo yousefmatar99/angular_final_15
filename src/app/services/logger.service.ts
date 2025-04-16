@@ -12,6 +12,8 @@ export class LoggerService {
   constructor(private router: Router, private http: HttpClient){} // , 
   login(email: string, password: string) {
     console.log("shghal")
+    console.log(`username: {username}, password: {password}`)
+    console.log({email, password })
 
     this.http.post(this.url, {username: email, password: password}).subscribe(
       (data: any) => {

@@ -10,6 +10,7 @@ import { DataService } from '../../services/data.service';
 export class DashboardComponent {
   constructor(private dataService: DataService){}
   ngOnInit(){
-    this.dataService.fetchStatistics();
+    console.log("dashboard shghal")
+    //this.dataService.fetchStatistics();
   }
 }
