@@ -7,15 +7,18 @@ import { Router } from '@angular/router';
 })
 export class LoggerService {
   private isAuthenticated = false;
-  url = "https://api.wosh.co.il/api/authorization/administrator/login"
+  //url = "https://api.wosh.co.il/api/authorization/administrator/login"
+  url = "/api/authorization/administrator/login"
 
   constructor(private router: Router, private http: HttpClient){} // , 
   login(email: string, password: string) {
-    console.log("shghal")
-    console.log(`username: {username}, password: {password}`)
     console.log({email, password })
 
-    this.http.post(this.url, {username: email, password: password}).subscribe(
+    const params = {
+      username: email, password: password
+    }
+
+    this.http.post(this.url+"?username=admin@wosh.co.il&password=admin@wosh", {}).subscribe(
       (data: any) => {
         this.isAuthenticated = true;
         localStorage.setItem("token", data.token);

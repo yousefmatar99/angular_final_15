@@ -4,17 +4,82 @@ import { Customer } from '../../models/customer.model';
 
 @Component({
   selector: 'app-customer',
-  imports: [],
   templateUrl: './customer.component.html',
-  styleUrl: './customer.component.css'
+  styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent {
   customers: Array<Customer> = [];
 
+  sortAsc: boolean = true;
+
   constructor(private dataService: DataService) {}
 
-  ngOnInit() {
-    this.dataService.fetchCustomers();
+  searchTerm: string = '';
+  filterStatus: string = 'all';
+  sortOrder: string = 'nameAsc';
+  filteredCustomers: Customer[] = [];
+
+ngOnInit() {
+  this.dataService.fetchCustomers();
+  this.dataService.customersSubject.subscribe(data => {
+    this.customers = data.map(Customer.fromJson);
+    this.applyFilters();
+  });
+}
+
+applyFilters() {
+  let result = [...this.customers];
+
+    // Search
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase();
+      result = result.filter(c =>
+        c.displayName.toLowerCase().includes(term) ||
+        c.email.toLowerCase().includes(term)
+      );
+    }
+
+    // Filter
+    if (this.filterStatus === 'suspended') {
+      result = result.filter(c => c.isSuspended);
+    } else if (this.filterStatus === 'active') {
+      result = result.filter(c => !c.isSuspended);
+    }
+
+    // Sort
+    switch (this.sortOrder) {
+      case 'nameAsc':
+        result.sort((a, b) => a.displayName.localeCompare(b.displayName));
+        break;
+      case 'nameDesc':
+        result.sort((a, b) => b.displayName.localeCompare(a.displayName));
+        break;
+      case 'emailAsc':
+        result.sort((a, b) => a.email.localeCompare(b.email));
+        break;
+      case 'emailDesc':
+        result.sort((a, b) => b.email.localeCompare(a.email));
+        break;
+    }
+
+    this.filteredCustomers = result;
   }
 
 }
+
+// toggleSuspension(customer: Customer) {
+//   const newStatus = !customer.isSuspended;
+
+//   this.dataService.updateSuspensionStatus(customer.id, newStatus).subscribe({
+//     next: () => {
+//       customer.isSuspended = newStatus;
+//       this.dataService.fetchCustomers();
+//       this.applyFilters();
+//     },
+//     error: (err) => {
+//       console.error('Failed to update suspension status:', err);
+//       alert('Something went wrong while updating suspension status.');
+//     }
+//   });
+//   //this.dataService.fetchCustomers();
+// }

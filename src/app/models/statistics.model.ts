@@ -18,8 +18,8 @@ export class Statistics {
     static fromJson(json: any): Statistics {
         return new Statistics(
           json["customersNumber"],
-          json["partnersNum"],
-          json["carsNum"],
+          json["partnersNumber"],
+          json["carsNumber"],
           json["totalReservations"],
           json["problematicReservations"],
           json["closedReservations"]
