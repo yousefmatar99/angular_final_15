@@ -33,6 +33,14 @@ export class DataService {
     )
   }
 
+  fetchReservations(): void {
+    this.http.post<any[]>(`${this.baseUrl}/getAllReservations`,{}).subscribe(
+      (data) => {
+        this.reservationsSubject.next(data);
+      }
+    )
+  }
+
   fetchStatistics(): void {
     console.log(localStorage.getItem('token'));
     this.http.post<any[]>(`${this.baseUrl}/statistics/systemStatistics`, {}).subscribe(

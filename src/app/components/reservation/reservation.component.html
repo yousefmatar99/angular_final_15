@@ -1,1 +1,50 @@
-<p>reservation works!</p>
+<div class="controls">
+    <div class="control-group">
+        <label for="search-term" class="control-label">Search</label>
+        <input 
+        type="text" 
+        class="control-input"
+        placeholder="Search by name, status or number" 
+        [(ngModel)]="searchTerm" 
+        (input)="applyFilters()" 
+        />
+    </div>
+    
+    <div class="control-group">
+      <label for="statusFilter" class="control-label">Filter by Status</label>
+      <select id="statusFilter" class="control-select" [(ngModel)]="filterStatus" (change)="applyFilters()">
+        <option value="all">All Statuses</option>
+        <option value="UN_DONE">UnDone</option>
+        <option value="DONE">Done</option>
+        <option value="CUSTOMER_FEEDBACK">Customer Feedback</option>
+      </select>
+    </div>
+  
+    <div class="control-group">
+      <label for="sortOrder" class="control-label">Sort by</label>
+      <select id="sortOrder" class="control-select" [(ngModel)]="sortOrder" (change)="applyFilters()">
+        <option value="resNumAsc">Reservation # ↑</option>
+        <option value="resNumDesc">Reservation # ↓</option>
+        <option value="cNameAsc">Customer Name ↑</option>
+        <option value="cNameDesc">Customer Name ↓</option>
+        <option value="pNameAsc">Partner Name ↑</option>
+        <option value="pNameDesc">Partner Name ↓</option>
+      </select>
+    </div>
+</div>
+  
+  
+  
+  <div class="reservation-container">
+    <div *ngFor="let reservation of filteredReservations" class="reservation-card">
+      <h3>Reservation #{{ reservation.resNum }}</h3>
+      <p><strong>Customer:</strong> {{ reservation.cName }}</p>
+      <p><strong>Partner:</strong> {{ reservation.pName }}</p>
+      <p><strong>From:</strong> {{ reservation.fTime }}</p>
+      <p><strong>To:</strong> {{ reservation.tTime }}</p>
+      <p><strong>Status:</strong> {{ reservation.status }}</p>
+      <p><strong>Total Price:</strong> ₪{{ reservation.totalPrice | number:'1.2-2' }}</p>
+      <p><strong>Transaction Amount:</strong> ₪{{ reservation.transAmount | number:'1.2-2' }}</p>
+    </div>
+  </div>
+  

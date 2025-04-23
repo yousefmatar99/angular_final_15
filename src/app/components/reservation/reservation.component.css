@@ -1,0 +1,77 @@
+.controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: inherit;
+  }
+  
+  .control-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .control-select,
+  .control-input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    min-width: 180px;
+  }
+  
+  
+  .controls input,
+  .controls select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  .reservation-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  .reservation-card {
+    width: 280px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+  }
+  
+  .reservation-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .reservation-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .reservation-card p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #444;
+  }
+  
