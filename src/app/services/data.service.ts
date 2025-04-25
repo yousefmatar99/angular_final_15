@@ -33,6 +33,14 @@ export class DataService {
     )
   }
 
+  fetchPartners(): void {
+    this.http.post<any[]>(`${this.baseUrl}/getAllPartners`,{}).subscribe(
+      (data) => {
+        this.partnersSubject.next(data);
+      }
+    )
+  }
+
   fetchReservations(): void {
     this.http.post<any[]>(`${this.baseUrl}/getAllReservations`,{}).subscribe(
       (data) => {
@@ -57,11 +65,17 @@ export class DataService {
     });
   }
 
-  updateSuspensionStatus(customerId: string, suspend: boolean): Observable<any> {
+  updateSuspensionStatus(id: string, suspended: boolean): Observable<any> {
     //const url = `${this.baseUrl}/suspendUser?userId=${customerId}&isSuspended=${suspend}`;
     const url = `${this.baseUrl}/suspendUser`;
-    console.log(url);
-    const params = new HttpParams().set('userId', customerId).set('isSuspended', suspend.toString());
+    //console.log(url);
+    const params = new HttpParams().set('userId', id).set('isSuspended', suspended.toString());
+    return this.http.post<any>(url, {}, {headers: this.getAuthHeaders(), params: params});
+  }
+
+  approveUser(id: string, approved: boolean): Observable<any> {
+    const url = `${this.baseUrl}/approveUser`;
+    const params = new HttpParams().set('userId', id).set('isApproved', approved.toString());
     return this.http.post<any>(url, {}, {headers: this.getAuthHeaders(), params: params});
   }
    

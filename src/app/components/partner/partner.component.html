@@ -1,1 +1,78 @@
-<p>partner works!</p>
+<div class="controls">
+    <div class="control-group">
+      <label class="control-label" for="search">Search</label>
+      <input
+        id="search"
+        type="text"
+        placeholder="Search by name, email or phone..."
+        [(ngModel)]="searchTerm"
+        (input)="applyFilters()"
+        class="control-input"
+      />
+    </div>
+  
+    <div class="control-group">
+      <label class="control-label" for="statusFilter">Filter by Status</label>
+      <select
+        id="statusFilter"
+        [(ngModel)]="filterStatus"
+        (change)="applyFilters()"
+        class="control-select"
+      >
+        <option value="all">All</option>
+        <option value="waiting">Waiting Approval</option>
+        <option value="active">Unsuspended</option>
+        <option value="suspended">Suspended</option>
+      </select>
+    </div>
+  
+    <div class="control-group">
+      <label class="control-label" for="sortOrder">Sort by</label>
+      <select
+        id="sortOrder"
+        [(ngModel)]="sortOrder"
+        (change)="applyFilters()"
+        class="control-select"
+      >
+        <option value="nameAsc">Name ↑</option>
+        <option value="nameDesc">Name ↓</option>
+        <option value="emailAsc">Email ↑</option>
+        <option value="emailDesc">Email ↓</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="customer-container">
+    <div *ngFor="let partner of filteredPartners" class="customer-card">
+        <img
+            [src]="partner.photoUrl || defaultPhoto"
+            (error)="setDefaultImage($event)"
+            alt="{{ partner.name }}"
+            class="partner-photo"
+            />
+
+        <h3>{{ partner.name }}</h3>
+        <p><strong>Email:</strong> {{ partner.email }}</p>
+        <p><strong>Phone:</strong> {{ partner.phone }}</p>
+        <p><strong>Admin:</strong> {{ partner.isAdmin ? 'Yes' : 'No' }}</p>
+        <p><strong>Status:</strong>
+          <span *ngIf="!partner.isApproved">Waiting Approval</span>
+          <span *ngIf="partner.isApproved && partner.isSuspended">Suspended</span>
+          <span *ngIf="partner.isApproved && !partner.isSuspended">Active</span>
+        </p>
+      
+        <button (click)="goToInfo(partner.id)">Info</button>
+      
+        <ng-container *ngIf="!partner.isApproved">
+          <button (click)="approveUser(partner)">Approve</button>
+        </ng-container>
+      
+        <ng-container *ngIf="partner.isApproved">
+          <button (click)="toggleSuspension(partner)">
+            {{ partner.isSuspended ? 'Unsuspend' : 'Suspend' }}
+          </button>
+        </ng-container>
+      </div>
+      
+  </div>
+  

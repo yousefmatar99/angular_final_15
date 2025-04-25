@@ -21,7 +21,7 @@
     >
       <option value="all">All</option>
       <option value="suspended">Suspended</option>
-      <option value="active">Active</option>
+      <option value="active">Unsuspended</option>
     </select>
   </div>
 
@@ -47,7 +47,7 @@
       <h3>{{ customer.displayName }}</h3>
       <p><strong>Email:</strong> {{ customer.email }}</p>
       <p><strong>Admin:</strong> {{ customer.isAdmin ? 'Yes' : 'No' }}</p>
-      <p><strong>Suspended:</strong> {{ customer.isSuspended ? 'Yes' : 'No' }}</p>
+      <p><strong>Phone Number:</strong> {{ customer.phoneNumber ? customer.phoneNumber : '-' }}</p>
       <button (click)="toggleSuspension(customer)">
         {{ customer.isSuspended ? 'Unsuspend' : 'Suspend' }}
       </button>
