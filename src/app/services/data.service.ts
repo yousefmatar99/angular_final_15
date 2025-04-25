@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Customer } from '../models/customer.model';
 import { Partner } from '../models/partner.model';
@@ -50,10 +50,19 @@ export class DataService {
     )
   }
 
+  getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
+
   updateSuspensionStatus(customerId: string, suspend: boolean): Observable<any> {
-    const url = `${this.baseUrl}/suspendUser?userId=${customerId}&isSuspended=${suspend.toString()}`;
+    //const url = `${this.baseUrl}/suspendUser?userId=${customerId}&isSuspended=${suspend}`;
+    const url = `${this.baseUrl}/suspendUser`;
     console.log(url);
-    return this.http.post<any>(url, {});
+    const params = new HttpParams().set('userId', customerId).set('isSuspended', suspend.toString());
+    return this.http.post<any>(url, {}, {headers: this.getAuthHeaders(), params: params});
   }
    
 }

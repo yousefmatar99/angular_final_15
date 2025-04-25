@@ -1,24 +1,46 @@
 <div class="controls">
+  <div class="control-group">
+    <label class="control-label" for="search">Search</label>
     <input
+      id="search"
       type="text"
       placeholder="Search by name or email..."
       [(ngModel)]="searchTerm"
       (input)="applyFilters()"
+      class="control-input"
     />
-  
-    <select [(ngModel)]="filterStatus" (change)="applyFilters()">
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="statusFilter">Filter by Status</label>
+    <select
+      id="statusFilter"
+      [(ngModel)]="filterStatus"
+      (change)="applyFilters()"
+      class="control-select"
+    >
       <option value="all">All</option>
       <option value="suspended">Suspended</option>
       <option value="active">Active</option>
     </select>
-  
-    <select [(ngModel)]="sortOrder" (change)="applyFilters()">
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="sortOrder">Sort by</label>
+    <select
+      id="sortOrder"
+      [(ngModel)]="sortOrder"
+      (change)="applyFilters()"
+      class="control-select"
+    >
       <option value="nameAsc">Name ↑</option>
       <option value="nameDesc">Name ↓</option>
       <option value="emailAsc">Email ↑</option>
       <option value="emailDesc">Email ↓</option>
     </select>
   </div>
+</div>
+
   
   <div class="customer-container">
     <div *ngFor="let customer of filteredCustomers" class="customer-card">
@@ -26,9 +48,9 @@
       <p><strong>Email:</strong> {{ customer.email }}</p>
       <p><strong>Admin:</strong> {{ customer.isAdmin ? 'Yes' : 'No' }}</p>
       <p><strong>Suspended:</strong> {{ customer.isSuspended ? 'Yes' : 'No' }}</p>
-      <!-- <button (click)="toggleSuspension(customer)">
+      <button (click)="toggleSuspension(customer)">
         {{ customer.isSuspended ? 'Unsuspend' : 'Suspend' }}
-      </button> -->
+      </button>
     </div>
   </div>
   

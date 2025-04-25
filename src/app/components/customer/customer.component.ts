@@ -24,6 +24,7 @@ ngOnInit() {
   this.dataService.customersSubject.subscribe(data => {
     this.customers = data.map(Customer.fromJson);
     this.applyFilters();
+    console.log(this.customers);
   });
 }
 
@@ -65,21 +66,23 @@ applyFilters() {
     this.filteredCustomers = result;
   }
 
+  toggleSuspension(customer: Customer) {
+  const newStatus = !customer.isSuspended;
+
+  this.dataService.updateSuspensionStatus(customer.id, newStatus).subscribe({
+    next: () => {
+      customer.isSuspended = newStatus;
+      this.dataService.fetchCustomers();
+      this.applyFilters();
+    },
+    error: (err) => {
+      console.error('Failed to update suspension status:', err);
+      console.log('Backend error message:', err?.error);
+      alert('Something went wrong while updating suspension status.');
+    }
+    
+  });
+  //this.dataService.fetchCustomers();
 }
 
-// toggleSuspension(customer: Customer) {
-//   const newStatus = !customer.isSuspended;
-
-//   this.dataService.updateSuspensionStatus(customer.id, newStatus).subscribe({
-//     next: () => {
-//       customer.isSuspended = newStatus;
-//       this.dataService.fetchCustomers();
-//       this.applyFilters();
-//     },
-//     error: (err) => {
-//       console.error('Failed to update suspension status:', err);
-//       alert('Something went wrong while updating suspension status.');
-//     }
-//   });
-//   //this.dataService.fetchCustomers();
-// }
+}

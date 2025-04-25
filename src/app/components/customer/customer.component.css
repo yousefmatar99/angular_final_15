@@ -5,6 +5,29 @@
     margin: 20px;
     flex-wrap: wrap;
   }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: inherit;
+  }
+  
+  .control-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .control-select,
+  .control-input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    min-width: 180px;
+  }
   
   .controls input,
   .controls select {
