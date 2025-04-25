@@ -13,7 +13,6 @@ import { Statistics } from '../models/statistics.model';
 })
 export class DataService {
 
-  // baseUrl: string = "https://api.wosh.co.il/api/administrator"
   baseUrl: string = "/api/administrator"
 
   // Behavioral Subjects

@@ -11,17 +11,10 @@ export class HomeContentComponent {
   stat_data: any;
   constructor(private dataService: DataService){}
   ngOnInit(){
-    //this.dataService.fetchCustomers();
     this.dataService.fetchStatistics();
     this.dataService.statisticsSubject.subscribe((data) => {
       console.log(data)
       this.stat_data = Statistics.fromJson(data);
     })
   }
-  // data: Array<Statistics> = [];
-  // constructor(){
-  //   this.data.push(new Statistics(1, 1, 1, 1, 1, 1));
-  //   //this.data.push(new Statistics(2, 2, 2, 2, 2, 2));
-  // }
-
 }

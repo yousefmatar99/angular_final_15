@@ -53,7 +53,7 @@
 
         <h3>{{ partner.name }}</h3>
         <p><strong>Email:</strong> {{ partner.email }}</p>
-        <p><strong>Phone:</strong> {{ partner.phone }}</p>
+        <p><strong>Phone:</strong> {{ partner.phoneNumber }}</p>
         <p><strong>Admin:</strong> {{ partner.isAdmin ? 'Yes' : 'No' }}</p>
         <p><strong>Status:</strong>
           <span *ngIf="!partner.isApproved">Waiting Approval</span>

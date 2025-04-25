@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 
 import { InterceptorService } from './services/interceptor.service';
 import { CustomerComponent } from './components/customer/customer.component';
+import { PartnerDetailsComponent } from './components/partner-details/partner-details.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CustomerComponent } from './components/customer/customer.component';
     HomeContentComponent,
     PartnerComponent,
     ReservationComponent,
-    CustomerComponent
+    CustomerComponent,
+    PartnerDetailsComponent
   ],
   imports: [
     BrowserModule,

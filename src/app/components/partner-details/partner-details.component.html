@@ -1,0 +1,23 @@
+<div class="partner-details-card" *ngIf="partner">
+    <h2>{{ partner.name }}</h2>
+    <img
+        [src]="partner.photoUrl || defaultPhoto"
+        (error)="setDefaultImage($event)"
+        alt="{{ partner.name }}"
+        class="partner-photo"
+        />
+    <p><strong>Email:</strong> {{ partner.email }}</p>
+    <p><strong>Phone:</strong> {{ partner.phoneNumber ? partner.phoneNumber : '-' }}</p>
+    <p><strong>Admin:</strong> {{ partner.isAdmin ? 'Yes' : 'No' }}</p>
+    <p><strong>Status:</strong>
+      <span *ngIf="!partner.isApproved">Waiting Approval</span>
+      <span *ngIf="partner.isApproved && partner.isSuspended">Suspended</span>
+      <span *ngIf="partner.isApproved && !partner.isSuspended">Active</span>
+    </p>
+  
+    <div class="buttons">
+      <button (click)="goToExtraDetails()">Extra Details</button>
+      <button (click)="goBack()">Back</button>
+    </div>
+  </div>
+  

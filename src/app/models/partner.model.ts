@@ -2,19 +2,19 @@ export class Partner {
     id: string;
     name: string;
     email: string;
-    phone: string;
+    phoneNumber: string;
     isApproved: boolean;
     isSuspended: boolean;
     isAdmin: boolean;
     photoUrl: string;
 
-    constructor(id: string = "", name: string = "", email: string = "", phone: string = "",
+    constructor(id: string = "", name: string = "", email: string = "", phoneNumber: string = "",
                 isApproved: boolean = false, isSuspended: boolean = false, isAdmin: boolean = false, photoUrl: string = ""
     ) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.isApproved = isApproved;
         this.isSuspended = isSuspended;
         this.isAdmin = isAdmin;

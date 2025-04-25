@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { Partner } from '../../models/partner.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-partner',
@@ -15,7 +16,7 @@ export class PartnerComponent {
   sortOrder: string = 'nameAsc';
   filteredPartners: Partner[] = [];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
     this.dataService.fetchPartners();
@@ -35,7 +36,7 @@ export class PartnerComponent {
       result = result.filter(p =>
         p.name.toLowerCase().includes(term) ||
         p.email.toLowerCase().includes(term) ||
-        p.phone.toLowerCase().includes(term)
+        p.phoneNumber.toLowerCase().includes(term)
       );
     }
 
@@ -105,8 +106,8 @@ export class PartnerComponent {
   }
 
   
-  goToInfo(id: string) {
-    //this.router.navigate(['/partner-extra-details', id]);
+  goToInfo(partnerId: string) {
+    this.router.navigate(['dashboard', 'partners', partnerId]);
   }
 
   defaultPhoto: string = 'assets/default_pic.png';
