@@ -48,9 +48,16 @@
       <p><strong>Email:</strong> {{ customer.email }}</p>
       <p><strong>Admin:</strong> {{ customer.isAdmin ? 'Yes' : 'No' }}</p>
       <p><strong>Phone Number:</strong> {{ customer.phoneNumber ? customer.phoneNumber : '-' }}</p>
-      <button (click)="toggleSuspension(customer)">
-        {{ customer.isSuspended ? 'Unsuspend' : 'Suspend' }}
-      </button>
+    
+      <div class="suspend-button-container">
+        <button
+          [ngClass]="customer.isSuspended ? 'unsuspend-btn' : 'suspend-btn'"
+          (click)="toggleSuspension(customer)"
+        >
+          {{ customer.isSuspended ? 'Unsuspend' : 'Suspend' }}
+        </button>
+      </div>
     </div>
+    
   </div>
   

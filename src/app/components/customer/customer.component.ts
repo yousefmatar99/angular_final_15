@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { Customer } from '../../models/customer.model';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-customer',
@@ -12,7 +13,7 @@ export class CustomerComponent {
 
   sortAsc: boolean = true;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: CustomerService) {}
 
   searchTerm: string = '';
   filterStatus: string = 'all';

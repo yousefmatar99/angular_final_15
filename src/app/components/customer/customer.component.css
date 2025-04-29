@@ -45,6 +45,7 @@
     overflow-y: auto;
     padding: 20px;
     justify-content: center;
+    align-items: stretch;
   }
   
   .customer-card {
@@ -55,6 +56,11 @@
     padding: 16px;
     background-color: #f9f9f9;
     transition: transform 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
   }
   
   .customer-card:hover {
@@ -72,18 +78,54 @@
     font-size: 14px;
   }
   
-  .customer-card button {
-    margin-top: 12px;
+  /* .customer-card button {
+    /* margin-top: 12px;
     padding: 8px 12px;
     background-color: #007bff;
     border: none;
     color: white;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-  }
+    font-size: 14px; */
+  /*} */
   
   .customer-card button:hover {
     background-color: #0056b3;
   }
+
+.suspend-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.customer-card .suspend-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.customer-card .unsuspend-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.customer-card .suspend-btn:hover {
+  background-color: #c82333;
+}
+
+.customer-card .unsuspend-btn:hover {
+  background-color: #218838;
+}
+
+  
   

@@ -15,47 +15,9 @@ export class DataService {
 
   baseUrl: string = "/api/administrator"
 
-  // Behavioral Subjects
-  customersSubject = new BehaviorSubject<Customer[]>([]);
-  partnersSubject = new BehaviorSubject<Partner[]>([]);
-  reservationsSubject = new BehaviorSubject<Reservation[]>([]);
   packagesSubject = new BehaviorSubject<Package[]>([]);
-  statisticsSubject = new BehaviorSubject<any[]>([]);
 
-  constructor(private http: HttpClient) { }
-
-  fetchCustomers(): void {
-    this.http.post<any[]>(`${this.baseUrl}/getAllCustomers`,{}).subscribe(
-      (data) => {
-        this.customersSubject.next(data);
-      }
-    )
-  }
-
-  fetchPartners(): void {
-    this.http.post<any[]>(`${this.baseUrl}/getAllPartners`,{}).subscribe(
-      (data) => {
-        this.partnersSubject.next(data);
-      }
-    )
-  }
-
-  fetchReservations(): void {
-    this.http.post<any[]>(`${this.baseUrl}/getAllReservations`,{}).subscribe(
-      (data) => {
-        this.reservationsSubject.next(data);
-      }
-    )
-  }
-
-  fetchStatistics(): void {
-    console.log(localStorage.getItem('token'));
-    this.http.post<any[]>(`${this.baseUrl}/statistics/systemStatistics`, {}).subscribe(
-      (data) => {
-        this.statisticsSubject.next(data);
-      }
-    )
-  }
+  constructor(protected http: HttpClient) { }
 
   getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');

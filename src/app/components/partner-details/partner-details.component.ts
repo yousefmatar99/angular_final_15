@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Partner } from 'src/app/models/partner.model';
 import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PartnerService } from 'src/app/services/partner.service';
 
 @Component({
   selector: 'app-partner-details',
@@ -15,7 +16,7 @@ export class PartnerDetailsComponent {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService){}
+    private dataService: PartnerService){}
 
   ngOnInit() {
     this.partnerId = this.route.snapshot.paramMap.get('id') || '';

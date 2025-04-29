@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Statistics } from 'src/app/models/statistics.model';
 import { DataService } from 'src/app/services/data.service';
+import { StatisticsService } from 'src/app/services/statistics.service';
 
 @Component({
   selector: 'app-home-content',
@@ -9,7 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomeContentComponent {
   stat_data: any;
-  constructor(private dataService: DataService){}
+  constructor(private dataService: StatisticsService){}
   ngOnInit(){
     this.dataService.fetchStatistics();
     this.dataService.statisticsSubject.subscribe((data) => {

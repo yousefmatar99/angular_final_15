@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { Partner } from '../../models/partner.model';
 import { Router } from '@angular/router';
+import { PartnerService } from 'src/app/services/partner.service';
 
 @Component({
   selector: 'app-partner',
@@ -16,7 +17,7 @@ export class PartnerComponent {
   sortOrder: string = 'nameAsc';
   filteredPartners: Partner[] = [];
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: PartnerService, private router: Router) {}
 
   ngOnInit() {
     this.dataService.fetchPartners();
