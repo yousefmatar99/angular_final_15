@@ -14,7 +14,10 @@
       <span *ngIf="partner.isApproved && partner.isSuspended">Suspended</span>
       <span *ngIf="partner.isApproved && !partner.isSuspended">Active</span>
     </p>
-  
+    <p><strong>Language:</strong> {{ extraDetails.language }} </p>
+    <p><strong>Country:</strong> {{ extraDetails.regionData && extraDetails.regionData.length > 0 ? extraDetails.regionData[0]["country"] : 'N/A' }}</p>
+    <p><strong>City:</strong> {{ extraDetails.regionData && extraDetails.regionData.length > 0 ? extraDetails.regionData[0]["city"] : 'N/A' }}</p>
+
     <div class="buttons">
       <button (click)="goToExtraDetails()">Extra Details</button>
       <button (click)="goBack()">Back</button>

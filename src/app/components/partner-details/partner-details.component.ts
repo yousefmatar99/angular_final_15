@@ -3,6 +3,7 @@ import { Partner } from 'src/app/models/partner.model';
 import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartnerService } from 'src/app/services/partner.service';
+import { ExtraDetails } from 'src/app/models/extra-details.model';
 
 @Component({
   selector: 'app-partner-details',
@@ -13,6 +14,7 @@ export class PartnerDetailsComponent {
 
   partnerId: string = '';
   partner: Partner | null = null;
+  extraDetails: ExtraDetails = new ExtraDetails();
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -25,7 +27,14 @@ export class PartnerDetailsComponent {
       const match = partners.find(p => p.id === this.partnerId);
       this.partner = match ?? null;
     });
-    console.log(this.partner);
+    this.dataService.fetchExtraDetails(this.partnerId);
+    this.dataService.currPartnerEDSubject.subscribe(data => {
+      if (data) {
+        this.extraDetails = ExtraDetails.fromJson(data);
+        console.log("Extra Details:", this.extraDetails);
+      }
+    });
+    
   }
   
   goToExtraDetails(): void {
