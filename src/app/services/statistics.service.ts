@@ -16,7 +16,7 @@ export class StatisticsService extends DataService {
   }
 
   fetchStatistics(): void {
-    console.log(localStorage.getItem('token'));
+    //console.log(localStorage.getItem('token'));
     this.http.post<any[]>(`${this.baseUrl}/statistics/systemStatistics`, {}).subscribe(
       (data) => {
         this.statisticsSubject.next(data);

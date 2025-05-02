@@ -25,7 +25,7 @@ ngOnInit() {
   this.dataService.customersSubject.subscribe(data => {
     this.customers = data.map(Customer.fromJson);
     this.applyFilters();
-    console.log(this.customers);
+    //console.log(this.customers);
   });
 }
 

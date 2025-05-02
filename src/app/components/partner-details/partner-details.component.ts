@@ -22,7 +22,6 @@ export class PartnerDetailsComponent {
 
   ngOnInit() {
     this.partnerId = this.route.snapshot.paramMap.get('id') || '';
-    //this.dataService.fetchPartners();
     this.dataService.partnersSubject.subscribe(partners => {
       const match = partners.find(p => p.id === this.partnerId);
       this.partner = match ?? null;
@@ -31,14 +30,13 @@ export class PartnerDetailsComponent {
     this.dataService.currPartnerEDSubject.subscribe(data => {
       if (data) {
         this.extraDetails = ExtraDetails.fromJson(data);
-        console.log("Extra Details:", this.extraDetails);
+        // const countryCode = this.extraDetails?.regionData?.[0]?.countryCode;
+        // if (countryCode) {
+        //   this.dataService.fetchRegions(countryCode);
+        //   console.log(this.dataService.regions);
+        // }
       }
     });
-    
-  }
-  
-  goToExtraDetails(): void {
-    this.router.navigate(['/partner-extra-details', this.partnerId]);
   }
 
   goBack(): void {

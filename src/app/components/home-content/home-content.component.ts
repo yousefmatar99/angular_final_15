@@ -14,7 +14,7 @@ export class HomeContentComponent {
   ngOnInit(){
     this.dataService.fetchStatistics();
     this.dataService.statisticsSubject.subscribe((data) => {
-      console.log(data)
+      //console.log(data)
       this.stat_data = Statistics.fromJson(data);
     })
   }

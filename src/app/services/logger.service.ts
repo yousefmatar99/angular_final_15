@@ -12,7 +12,7 @@ export class LoggerService {
 
   constructor(private router: Router, private http: HttpClient){} // , 
   login(email: string, password: string) {
-    console.log({email, password })
+    //console.log({email, password })
 
     const params = {
       username: email, password: password

@@ -13,6 +13,8 @@ export class PartnerService extends DataService {
   partnersSubject = new BehaviorSubject<Partner[]>([]);
   currPartnerEDSubject = new BehaviorSubject<ExtraDetails | null>(null);
 
+  regions =  new BehaviorSubject<any | null>(null);
+
   constructor(protected override http: HttpClient) {
       super(http);
   }
@@ -29,6 +31,15 @@ export class PartnerService extends DataService {
     this.http.post<any>(`${this.baseUrl}/getPartnerExtraDetails?partnerId=${partnerId}`,{}).subscribe(
       (data) => {
         this.currPartnerEDSubject.next(data);
+      }
+    )
+  }
+
+  fetchRegions(countryCode: string): void {
+    console.log("countryCode: " + countryCode);
+    this.http.post<any>(`${this.baseUrl}/regions/get?countryCode=${countryCode}`, {}).subscribe(
+      (data) => {
+        this.regions.next(data);
       }
     )
   }

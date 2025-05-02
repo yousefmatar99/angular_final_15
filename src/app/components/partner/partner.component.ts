@@ -24,7 +24,7 @@ export class PartnerComponent {
     this.dataService.partnersSubject.subscribe(data => {
       this.partners = data.map(Partner.fromJson);
       this.applyFilters();
-      console.log(this.partners);
+      //console.log(this.partners);
     });
   }
 
