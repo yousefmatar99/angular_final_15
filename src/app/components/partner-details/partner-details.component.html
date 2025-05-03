@@ -16,6 +16,7 @@
     </p>
     <p><strong>Language:</strong> {{ extraDetails.language }} </p>
     <p><strong>Country:</strong> {{ extraDetails.regionData && extraDetails.regionData.length > 0 ? extraDetails.regionData[0]["country"] : 'N/A' }}</p>
+    <p><strong>Regions:</strong></p>
     <div *ngIf="extraDetails.regionData && extraDetails.regionData.length > 0; else noRegions">
       <p *ngFor="let region of extraDetails.regionData; let i = index">
         <strong>City {{ i + 1 }}:</strong> {{ region.city }}
@@ -24,10 +25,11 @@
     <ng-template #noRegions>
       <p><strong>City:</strong> N/A</p>
     </ng-template>
-    
 
     <div class="buttons">
       <button (click)="goBack()">Back</button>
     </div>
+
+    <app-package *ngIf="partner?.id" [partnerId]="partnerId"></app-package>
   </div>
   

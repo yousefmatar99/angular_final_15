@@ -12,7 +12,6 @@ export class PartnerService extends DataService {
 
   partnersSubject = new BehaviorSubject<Partner[]>([]);
   currPartnerEDSubject = new BehaviorSubject<ExtraDetails | null>(null);
-
   regions =  new BehaviorSubject<any | null>(null);
 
   constructor(protected override http: HttpClient) {

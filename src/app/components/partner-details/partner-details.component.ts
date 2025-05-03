@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Partner } from 'src/app/models/partner.model';
-import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartnerService } from 'src/app/services/partner.service';
 import { ExtraDetails } from 'src/app/models/extra-details.model';
@@ -35,6 +34,8 @@ export class PartnerDetailsComponent {
         //   this.dataService.fetchRegions(countryCode);
         //   console.log(this.dataService.regions);
         // }
+        //this.dataService.fetchPackages(this.partnerId);
+        //this.packages = data()
       }
     });
   }

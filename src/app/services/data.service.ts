@@ -15,7 +15,7 @@ export class DataService {
 
   baseUrl: string = "/api/administrator"
 
-  packagesSubject = new BehaviorSubject<Package[]>([]);
+  //packagesSubject = new BehaviorSubject<Package[]>([]);
 
   constructor(protected http: HttpClient) { }
 

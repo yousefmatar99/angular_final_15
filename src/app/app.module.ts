@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { InterceptorService } from './services/interceptor.service';
 import { CustomerComponent } from './components/customer/customer.component';
 import { PartnerDetailsComponent } from './components/partner-details/partner-details.component';
+import { PackageComponent } from './components/package/package.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PartnerDetailsComponent } from './components/partner-details/partner-de
     PartnerComponent,
     ReservationComponent,
     CustomerComponent,
-    PartnerDetailsComponent
+    PartnerDetailsComponent,
+    PackageComponent
   ],
   imports: [
     BrowserModule,
