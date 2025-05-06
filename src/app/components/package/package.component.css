@@ -1,0 +1,46 @@
+.package-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding-top: 20px;
+  }
+  
+  .package-card {
+    width: 300px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .title {
+    font-size: 20px;
+  }
+  
+
+  .question-list {
+    padding-left: 0.5em;
+    margin: 0;
+  }
+  
+  .question-list li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .delete-btn {
+    margin-top: 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  

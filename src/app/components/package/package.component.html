@@ -1,1 +1,39 @@
-<p>{{this.packages}}</p>
+<p class="title"><strong>Packages</strong></p>
+<div class="package-container">
+  <div *ngFor="let pkg of packages" class="package-card">
+    <h3>{{ pkg.packageName }}</h3>
+    <p><strong>Country:</strong> {{ pkg.country }} ({{ pkg.countryCode }})</p>
+    <p><strong>City:</strong> {{ pkg.city }}</p>
+ 
+    <p><strong>Status:</strong> {{ pkg.active ? 'Active' : 'Inactive' }}</p>
+
+    <p><strong>Duration:</strong> {{ pkg.duration }} (hours)</p>
+    <p><strong>Description:</strong> {{ pkg.packageDescription || 'None' }}</p>
+    <p><strong>Cars:</strong> {{ pkg.privateCars }}</p>
+    <p><strong>Vans:</strong> {{ pkg.vansOrSimilar }}</p>
+    <p><strong>SUVs:</strong> {{ pkg.suvs }}</p>
+    <p><strong>Caravans:</strong> {{ pkg.caravans }}</p>
+
+    <div *ngIf="pkg.priceDTO">
+        <!-- <strong>Price Info:</strong> -->
+        <p><strong>Currency:</strong> {{ pkg.currency }}</p>
+        <p><strong>Net Price:</strong> {{ pkg.priceDTO.netPrice == undefined ? 'undefined' : pkg.priceDTO.netPrice }}</p>
+        <p><strong>Total Price:</strong> {{ pkg.priceDTO.totalPr == undefined ? 'undefined' : pkg.priceDTO.totalPr }}</p>
+        <p><strong>Sale Price:</strong> {{ pkg.priceDTO.salePrice == undefined ? 'undefined' : pkg.priceDTO.salePrice }}</p>
+        <p><strong>VAT:</strong> {{ pkg.vat }}</p>
+    </div>
+
+    <div *ngIf="pkg.questions?.length">
+        <strong>Questions:</strong>
+        <div *ngFor="let q of pkg.questions; let i = index">
+            <p>{{i+1}}. {{ q.text || q }}</p>
+            <p>type: {{ q.type.toString() || q }}</p>
+            <p>Expected Answer: {{ q.expectedAnswer || q }}</p>
+            <p>Mandatory: {{ q.mandatory.toString() || q }}</p>
+        </div>
+    </div>
+
+    <button (click)="deletePackage(pkg.id, partnerId)" class="delete-btn">Delete</button>
+   
+  </div>
+</div>
