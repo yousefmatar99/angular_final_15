@@ -1,3 +1,6 @@
+import { ServiceModel } from './service-model.model';
+import { Question } from './question.model';
+
 export class Package {
   constructor(
     public id: string,
@@ -8,49 +11,40 @@ export class Package {
     public packageName: string,
     public currency: string,
     public active: boolean,
-
-    // Extra details
     public duration: string,
     public packageDescription: string,
     public privateCars: string,
     public vansOrSimilar: string,
     public suvs: string,
     public caravans: string,
-
-    // Nested structures
-    public serviceProducts: any[],
-    public stockProducts: any[],
-    public regionDTOs: any,
-    public priceDTO: any,
-    public questions: any[]
+    public services: ServiceModel[],
+    public stock: any[],
+    public regions: any[],
+    public price: any,
+    public questions: Question[]
   ) {}
 
-  static fromJson(json: any): Package {
-    const extra = json.extraDetails || {};
+  static fromJson(raw: any): Package {
     return new Package(
-      json.id ?? '',
-      parseFloat(json.vat ?? 0),
-      json.country ?? 'N/A',
-      json.countryCode ?? 'N/A',
-      json.city ?? 'N/A',
-      json.packageName ?? 'N/A',
-      json.currency ?? 'N/A',
-      json.active ?? false,
-
-      // extraDetails
-      extra.duration ?? '',
-      extra.packageDescription ?? '',
-      extra.PrivateCars ?? '-',
-      extra.VansOrSimilar ??'-',
-      extra.SUVs ?? '-',
-      extra.Caravans ?? '-',
-
-      // arrays
-      Array.isArray(json.serviceProducts) ? json.serviceProducts : [],
-      Array.isArray(json.stockProducts) ? json.stockProducts : [],
-      Array.isArray(json.regionDTOs) ? json.regionDTOs : [],
-      json.priceDTO ?? {},
-      Array.isArray(json.questions) ? json.questions : []
+      raw.id,
+      raw.vat,
+      raw.country,
+      raw.countryCode,
+      raw.city,
+      raw.packageName,
+      raw.currency,
+      raw.active,
+      raw.duration,
+      raw.packageDescription,
+      raw.privateCars,
+      raw.vansOrSimilar,
+      raw.suvs,
+      raw.caravans,
+      (raw.services || []).map((s: any) => ServiceModel.fromJson(s)),
+      raw.stock || [],
+      raw.regions || [],
+      raw.price || {},
+      (raw.questions || []).map((q: any) => Question.fromJson(q))
     );
   }
 
@@ -64,28 +58,17 @@ export class Package {
       packageName: this.packageName,
       currency: this.currency,
       active: this.active,
-      extraDetails: {
-        duration: this.duration,
-        packageDescription: this.packageDescription,
-        PrivateCars: this.privateCars,
-        VansOrSimilar: this.vansOrSimilar,
-        SUVs: this.suvs,
-        Caravans: this.caravans,
-        additionalProp1: this.duration,
-        additionalProp2: this.packageDescription,
-        additionalProp3: this.privateCars
-      },
-      serviceProducts: this.serviceProducts,
-      stockProducts: this.stockProducts,
-      regionDTOs: this.regionDTOs,
-      priceDTO: this.priceDTO || {"netPrice": null,
-            "totalPrice": null,
-            "price": null,
-            "salePrice": null,
-            "vat": 0.17,
-            "systemProfitPercentage": 0.1,
-            "salePercentage": null},
-      questions: this.questions
+      duration: this.duration,
+      packageDescription: this.packageDescription,
+      privateCars: this.privateCars,
+      vansOrSimilar: this.vansOrSimilar,
+      suvs: this.suvs,
+      caravans: this.caravans,
+      services: this.services.map(s => s.toJson()),
+      stock: this.stock,
+      regions: this.regions,
+      price: this.price,
+      questions: this.questions.map(q => q.toJson())
     };
   }
 }

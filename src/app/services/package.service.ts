@@ -48,29 +48,31 @@ export class PackageService extends DataService {
     const params = new HttpParams()
       .set('partnerId', partnerId)
       .set('packageId', pkgId);
+      //const headers = this.getAuthHeaders().set('Content-Type', 'text/plain');
   
-    this.http.post<any>(url, {}, { headers: this.getAuthHeaders(), params }).subscribe({
-      next: () => {
-        // Ideally, backend would return success, but we handle it anyway
-        this.fetchPackages(partnerId);
-      },
-      error: (err) => {
-        const knownError =
-          err.status === 400 &&
-          typeof err.error?.message === 'string' &&
-          err.error.message.includes('Map1 cannot be cast to class com.r_labs.wosh.entities.Partner');
-  
-        if (knownError) {
-          console.warn('Package deletion succeeded but backend threw a known error. Proceeding.');
-          this.fetchPackages(partnerId);
-        } else {
-          console.error('Unexpected error while deleting package:', err);
-          alert('Failed to delete package. Please try again later.');
-        }
-      }
+    this.http.post<any>(
+      url, null, { params: params }).subscribe({
+        next: () => this.fetchPackages(partnerId),
+        error: err => this.handleDeleteError(err, partnerId)
     });
+  }
+
+  private handleDeleteError(err: any, partnerId: string) {
+    const raw = typeof err.error === 'string'
+      ? err.error
+      : err.error?.message;
+  
+    const knownError = err.status === 400
+      && raw?.includes('Map1 cannot be cast to class com.r_labs.wosh.entities.Partner');
+  
+    if (knownError) {
+      console.warn('Delete succeeded but back-end threw the known Map1→Partner error; refreshing list.');
+      this.fetchPackages(partnerId);
+    } else {
+      console.error('Unexpected delete error:', err);
+      alert('Failed to delete package. Please try again later.');
+    }
   }
   
   
-
 }

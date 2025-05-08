@@ -43,12 +43,15 @@ export class PartnerDetailsComponent {
       if (data) {
         this.extraDetails = ExtraDetails.fromJson(data);
       }
+      this.packageService.fetchPackages(this.partnerId);
+      this.packageService.packagesSubject.subscribe(data => {
+        this.packages = data.map(Package.fromJson);
+      });
+      this.packageService.servicesSubject.subscribe((data) => {
+        this.services = data.map(ServiceModel.fromJson);
+      });
     });
 
-    this.packageService.fetchPackages(this.partnerId);
-    this.packageService.packagesSubject.subscribe(data => {
-      this.packages = data.map(Package.fromJson);
-    });
   }
 
     showAddForm = false;
@@ -95,10 +98,10 @@ export class PartnerDetailsComponent {
   }
 
   onRegionChange(region: any): void {
-    this.packageService.servicesSubject.subscribe((data) => {
-      this.services = data.map(ServiceModel.fromJson);
-    });
+    this.selectedRegion = region;
+    this.packageService.getServicesByRegion(region);
   }
+  
 
 
   addPackage(pkg: Package) {

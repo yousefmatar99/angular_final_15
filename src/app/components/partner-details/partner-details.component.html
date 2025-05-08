@@ -37,8 +37,21 @@
         <input name="country" ngModel placeholder="Country" />
         <input name="countryCode" ngModel placeholder="Country Code" />
         <input name="city" ngModel placeholder="City" />
-        <!-- Region dropdown -->
-        <div class="form-group text-center">
+        <input name="currency" ngModel placeholder="Currency" />
+        <input name="vat" type="number" ngModel placeholder="VAT" />
+        <input name="duration" ngModel placeholder="Duration" />
+        <input name="packageDescription" ngModel placeholder="Description" />
+        <input name="privateCars" ngModel placeholder="Private Cars" />
+        <input name="vansOrSimilar" ngModel placeholder="Vans" />
+        <input name="suvs" ngModel placeholder="SUVs" />
+        <input name="caravans" ngModel placeholder="Caravans" />
+    
+        <div class="checkbox-row">
+          <label for="active">Active</label>
+          <input id="active" name="active" type="checkbox" ngModel />
+        </div>
+    
+        <div class="form-group">
           <label for="regionSelect">Choose Region:</label>
           <select
             id="regionSelect"
@@ -49,11 +62,10 @@
             <option *ngFor="let region of extraDetails.regionData" [ngValue]="region">
               {{ region.name }}
             </option>
-        </select>
+          </select>
         </div>
-
-        <!-- Services dropdown -->
-        <div class="form-group text-center" *ngIf="services.length > 0">
+    
+        <div class="form-group" *ngIf="services.length > 0">
           <label for="serviceSelect">Choose Service:</label>
           <select
             id="serviceSelect"
@@ -65,23 +77,11 @@
             </option>
           </select>
         </div>
-     
-        <input name="currency" ngModel placeholder="Currency" />
-        <input name="vat" type="number" ngModel placeholder="VAT" />
-        <input name="duration" ngModel placeholder="Duration" />
-        <input name="packageDescription" ngModel placeholder="Description" />
-        <input name="privateCars" ngModel placeholder="Private Cars" />
-        <input name="vansOrSimilar" ngModel placeholder="Vans" />
-        <input name="suvs" ngModel placeholder="SUVs" />
-        <input name="caravans" ngModel placeholder="Caravans" />
-        <div class="checkbox-row">
-          <label for="active">Active</label>
-          <input id="active" name="active" type="checkbox" ngModel />
-        </div>
-
+    
         <button type="submit" [disabled]="!packageForm.valid">Submit</button>
       </form>
     </div>
+    
 
     <app-package *ngIf="packages.length" [packages]="packages" [partnerId]="partnerId"></app-package>
     <div *ngIf="!packages.length">
