@@ -1,46 +1,50 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Package } from '../models/package.model';
 import { ServiceModel } from '../models/service-model.model';
+import { Question } from '../models/question.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PackageService extends DataService {
-
   packagesSubject = new BehaviorSubject<Package[]>([]);
   servicesSubject = new BehaviorSubject<ServiceModel[]>([]);
 
   constructor(protected override http: HttpClient) {
-      super(http);
+    super(http);
+  }
+
+  updateQuestions(partnerId: string, packageId: string, questions: Question[]): Observable<string> {
+    const url = `${this.baseUrl}/package/questions/update`;
+    const params = new HttpParams()
+      .set('partnerId', partnerId)
+      .set('packageId', packageId);
+
+    return this.http.post<string>(url, questions, {
+      headers: this.getAuthHeaders(),
+      params
+    }).pipe(
+      tap(() => this.fetchPackages(partnerId))
+    );
   }
 
   fetchPackages(partnerId: string): void {
-    this.http.post<any>(`${this.baseUrl}/getPartnerPackages?partnerId=${partnerId}`, {}).subscribe(
-      (data) => {
-        this.packagesSubject.next(data);
-      }
-    )
+    this.http.post<any>(`${this.baseUrl}/getPartnerPackages?partnerId=${partnerId}`, {})
+      .subscribe(data => this.packagesSubject.next(data));
   }
 
   addPackage(partnerId: string, pkg: Package): void {
-    const body_data = pkg.toJson();
-    this.http.post<any>(`${this.baseUrl}/addPartnerPackage?partnerId=${partnerId}`, body_data).subscribe(
-      (data) => {
-        this.packagesSubject.next(data);
-        this.fetchPackages(partnerId);
-      }
-    )
+    this.http.post<any>(`${this.baseUrl}/addPartnerPackage?partnerId=${partnerId}`, pkg.toJson())
+      .subscribe(() => this.fetchPackages(partnerId));
   }
 
   getServicesByRegion(region: any): void {
-    this.http.post<any>(`${this.baseUrl}/store/services/get`, region).subscribe(
-      (data) => {
-        this.servicesSubject.next(data);
-      }
-    )
+    this.http.post<any>(`${this.baseUrl}/store/services/get`, region)
+      .subscribe(data => this.servicesSubject.next(data));
   }
 
   deletePkg(pkgId: string, partnerId: string): void {
@@ -48,31 +52,8 @@ export class PackageService extends DataService {
     const params = new HttpParams()
       .set('partnerId', partnerId)
       .set('packageId', pkgId);
-      //const headers = this.getAuthHeaders().set('Content-Type', 'text/plain');
-  
-    this.http.post<any>(
-      url, null, { params: params }).subscribe({
-        next: () => this.fetchPackages(partnerId),
-        error: err => this.handleDeleteError(err, partnerId)
-    });
-  }
 
-  private handleDeleteError(err: any, partnerId: string) {
-    const raw = typeof err.error === 'string'
-      ? err.error
-      : err.error?.message;
-  
-    const knownError = err.status === 400
-      && raw?.includes('Map1 cannot be cast to class com.r_labs.wosh.entities.Partner');
-  
-    if (knownError) {
-      console.warn('Delete succeeded but back-end threw the known Map1→Partner error; refreshing list.');
-      this.fetchPackages(partnerId);
-    } else {
-      console.error('Unexpected delete error:', err);
-      alert('Failed to delete package. Please try again later.');
-    }
+    this.http.post<any>(url, null, { params })
+      .subscribe(() => this.fetchPackages(partnerId));
   }
-  
-  
 }

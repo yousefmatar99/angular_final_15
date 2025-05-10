@@ -1,12 +1,12 @@
 <p class="title"><strong>Packages</strong></p>
+
 <div class="package-container">
   <div *ngFor="let pkg of packages" class="package-card">
+    <!-- meda3 el pkg -->
     <h3>{{ pkg.packageName }}</h3>
     <p><strong>Country:</strong> {{ pkg.country }} ({{ pkg.countryCode }})</p>
     <p><strong>City:</strong> {{ pkg.city }}</p>
- 
     <p><strong>Status:</strong> {{ pkg.active ? 'Active' : 'Inactive' }}</p>
-
     <p><strong>Duration:</strong> {{ pkg.duration }} (hours)</p>
     <p><strong>Description:</strong> {{ pkg.packageDescription || 'None' }}</p>
     <p><strong>Cars:</strong> {{ pkg.privateCars }}</p>
@@ -14,26 +14,77 @@
     <p><strong>SUVs:</strong> {{ pkg.suvs }}</p>
     <p><strong>Caravans:</strong> {{ pkg.caravans }}</p>
 
-    <div *ngIf="pkg.priceDTO">
-        <!-- <strong>Price Info:</strong> -->
-        <p><strong>Currency:</strong> {{ pkg.currency }}</p>
-        <p><strong>Net Price:</strong> {{ pkg.priceDTO.netPrice == undefined ? 'undefined' : pkg.priceDTO.netPrice }}</p>
-        <p><strong>Total Price:</strong> {{ pkg.priceDTO.totalPr == undefined ? 'undefined' : pkg.priceDTO.totalPr }}</p>
-        <p><strong>Sale Price:</strong> {{ pkg.priceDTO.salePrice == undefined ? 'undefined' : pkg.priceDTO.salePrice }}</p>
-        <p><strong>VAT:</strong> {{ pkg.vat }}</p>
+    <div *ngIf="pkg.price">
+      <p><strong>Currency:</strong> {{ pkg.currency }}</p>
+      <p><strong>Net Price:</strong> {{ pkg.price.netPrice ?? 'undefined' }}</p>
+      <p><strong>Total Price:</strong> {{ pkg.price.totalPr ?? 'undefined' }}</p>
+      <p><strong>Sale Price:</strong> {{ pkg.price.salePrice ?? 'undefined' }}</p>
+      <p><strong>VAT:</strong> {{ pkg.vat }}</p>
     </div>
 
+    <!-- 3rd el meda3 -->
     <div *ngIf="pkg.questions?.length">
-        <strong>Questions:</strong>
-        <div *ngFor="let q of pkg.questions; let i = index">
-            <p>{{i+1}}. {{ q.text || q }}</p>
-            <p>type: {{ q.type.toString() || q }}</p>
-            <p>Expected Answer: {{ q.expectedAnswer || q }}</p>
-            <p>Mandatory: {{ q.mandatory.toString() || q }}</p>
-        </div>
+      <p><br></p>
+      <h4>Questions</h4>
+      <ol>
+        <li *ngFor="let q of pkg.questions">
+          <ng-container *ngIf="!editingQuestion || editingQuestion.id !== q.id">
+            <p><strong>Question: </strong>{{ q.text }}<br></p>
+            <p><strong>Type: </strong>{{ q.type }}<br></p>
+            <p><strong>Expected Answer: </strong>{{ q.expectedAnswer }}<br></p>
+            <p><strong>Mandatory? </strong>{{ q.mandatory }}<br></p>
+            <p><strong>---------------------------------</strong></p>
+          </ng-container>
+
+          <!-- edit w delete -->
+          <ng-container *ngIf="editingQuestion && editingQuestion.id === q.id">
+            <input [(ngModel)]="editingQuestion.text" placeholder="Text" />
+            <input [(ngModel)]="editingQuestion.type" type="number" placeholder="Type" />
+            <input [(ngModel)]="editingQuestion.expectedAnswer" placeholder="Expected Answer" />
+            <label>
+              Mandatory
+              <input [(ngModel)]="editingQuestion.mandatory" type="checkbox" />
+            </label>
+            <button (click)="onSaveEditedQuestion(pkg)">Save</button>
+            <button (click)="editingQuestion = null">Cancel</button>
+          </ng-container>
+
+          <button *ngIf="!editingQuestion || editingQuestion.id !== q.id"
+                  (click)="onShowEditQuestionForm(q)">
+            Edit
+          </button>
+          <button (click)="onDeleteQuestion(pkg, q.id)">
+            Delete
+          </button>
+        </li>
+      </ol>
     </div>
 
-    <button (click)="deletePackage(pkg.id, partnerId)" class="delete-btn">Delete</button>
-   
+
+    <!--add question -->
+    <div *ngIf="showQuestionForm[pkg.id]; else showAddLink">
+      <h4>Add New Question</h4>
+      <input [(ngModel)]="getNewQuestion(pkg).text" placeholder="Question text" />
+      <input [(ngModel)]="getNewQuestion(pkg).type" type="number" placeholder="Type (e.g. 0)" />
+      <input [(ngModel)]="getNewQuestion(pkg).expectedAnswer" placeholder="Expected Answer" />
+      <label>
+        Mandatory
+        <input [(ngModel)]="getNewQuestion(pkg).mandatory" type="checkbox" />
+      </label>
+      <button (click)="onSaveNewQuestion(pkg)">Add</button>
+      <button (click)="showQuestionForm[pkg.id] = false">Cancel</button>
+    </div>
+
+    
+    <ng-template #showAddLink>
+      <button (click)="onShowAddQuestionForm(pkg)">
+        + Add Question
+      </button>
+    </ng-template>
+
+
+    <button class="delete-btn" (click)="deletePackage(pkg.id)">
+      Delete Package
+    </button>
   </div>
 </div>

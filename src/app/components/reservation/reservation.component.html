@@ -35,16 +35,16 @@
   
   
   
-  <div class="reservation-container">
-    <div *ngFor="let reservation of filteredReservations" class="reservation-card">
-      <h3>Reservation #{{ reservation.resNum }}</h3>
-      <p><strong>Customer:</strong> {{ reservation.cName }}</p>
-      <p><strong>Partner:</strong> {{ reservation.pName }}</p>
-      <p><strong>From:</strong> {{ reservation.fTime }}</p>
-      <p><strong>To:</strong> {{ reservation.tTime }}</p>
-      <p><strong>Status:</strong> {{ reservation.status }}</p>
-      <p><strong>Total Price:</strong> ₪{{ reservation.totalPrice | number:'1.2-2' }}</p>
-      <p><strong>Transaction Amount:</strong> ₪{{ reservation.transAmount | number:'1.2-2' }}</p>
-    </div>
+<div class="reservation-container">
+  <div *ngFor="let reservation of filteredReservations" class="reservation-card">
+    <h3>Reservation #{{ reservation.resNum }}</h3>
+    <p><strong>Customer:</strong> {{ reservation.cName }}</p>
+    <p><strong>Partner:</strong> {{ reservation.pName }}</p>
+    <p><strong>From:</strong> {{ reservation.fTime }}</p>
+    <p><strong>To:</strong> {{ reservation.tTime }}</p>
+    <p><strong>Status:</strong> {{ reservation.status }}</p>
+    <p><strong>Total Price:</strong> ₪{{ reservation.totalPrice | number:'1.2-2' }}</p>
+    <p><strong>Transaction Amount:</strong> ₪{{ reservation.transAmount | number:'1.2-2' }}</p>
   </div>
+</div>
   

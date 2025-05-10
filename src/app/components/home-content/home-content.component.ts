@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Statistics } from 'src/app/models/statistics.model';
-import { DataService } from 'src/app/services/data.service';
 import { StatisticsService } from 'src/app/services/statistics.service';
 
 @Component({
@@ -14,7 +13,6 @@ export class HomeContentComponent {
   ngOnInit(){
     this.dataService.fetchStatistics();
     this.dataService.statisticsSubject.subscribe((data) => {
-      //console.log(data)
       this.stat_data = Statistics.fromJson(data);
     })
   }

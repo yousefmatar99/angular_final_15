@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DataService } from '../../services/data.service';
 import { Partner } from '../../models/partner.model';
 import { Router } from '@angular/router';
 import { PartnerService } from 'src/app/services/partner.service';
@@ -24,7 +23,6 @@ export class PartnerComponent {
     this.dataService.partnersSubject.subscribe(data => {
       this.partners = data.map(Partner.fromJson);
       this.applyFilters();
-      //console.log(this.partners);
     });
   }
 
@@ -83,8 +81,6 @@ export class PartnerComponent {
         this.applyFilters();
       },
       error: (err) => {
-        console.error('Failed to update suspension status:', err);
-        console.log('Backend error message:', err?.error);
         alert('Something went wrong while updating suspension status.');
       }
     });

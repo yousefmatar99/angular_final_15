@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DataService } from '../../services/data.service';
 import { Customer } from '../../models/customer.model';
 import { CustomerService } from 'src/app/services/customer.service';
 
@@ -25,7 +24,6 @@ ngOnInit() {
   this.dataService.customersSubject.subscribe(data => {
     this.customers = data.map(Customer.fromJson);
     this.applyFilters();
-    //console.log(this.customers);
   });
 }
 
@@ -77,13 +75,10 @@ applyFilters() {
       this.applyFilters();
     },
     error: (err) => {
-      console.error('Failed to update suspension status:', err);
-      console.log('Backend error message:', err?.error);
       alert('Something went wrong while updating suspension status.');
     }
     
   });
-  //this.dataService.fetchCustomers();
 }
 
 }

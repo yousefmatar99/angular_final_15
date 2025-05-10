@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Reservation } from 'src/app/models/reservation.model';
-import { DataService } from 'src/app/services/data.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({

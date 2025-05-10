@@ -1,5 +1,3 @@
-import { Partner } from "./partner.model";
-
 export class ExtraDetails {
     language: string;
     regionData: any;
