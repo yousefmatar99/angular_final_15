@@ -72,15 +72,16 @@
           <label for="active">Active</label>
           <input id="active" name="active" type="checkbox" ngModel />
         </div>
-    
+        
+        <p>Region Select Not Working</p>
         <div class="form-group">
           <label for="regionSelect">Choose Region:</label>
           <select
             id="regionSelect"
             class="form-control"
-            name="region"
-            [ngModel]="selectedRegion"
-            (ngModelChange)="onRegionChange($event)">
+            name="region">
+            <!-- [ngModel]="selectedRegion" -->
+            <!-- (ngModelChange)="onRegionChange($event)"> -->
             <option *ngFor="let region of extraDetails.regionData" [ngValue]="region">
               {{ region.name }}
             </option>

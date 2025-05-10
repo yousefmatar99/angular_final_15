@@ -18,10 +18,11 @@ export class PartnerDetailsComponent {
   partner: Partner | null = null;
   extraDetails: ExtraDetails = new ExtraDetails();
   packages: Package[] = [];
-  selectedRegion: any = null;
   services: ServiceModel[] = [];
   selectedServiceId: string = '';
 
+  showAllRegions = false;
+  showAddForm = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,8 +35,7 @@ export class PartnerDetailsComponent {
     this.partnerId = this.route.snapshot.paramMap.get('id') || '';
 
     this.partnerService.partnersSubject.subscribe(partners => {
-      const match = partners.find(p => p.id === this.partnerId);
-      this.partner = match ?? null;
+      this.partner = partners.find(p => p.id === this.partnerId) ?? null;
     });
 
     this.partnerService.fetchExtraDetails(this.partnerId);
@@ -44,78 +44,61 @@ export class PartnerDetailsComponent {
         this.extraDetails = ExtraDetails.fromJson(data);
       }
       this.packageService.fetchPackages(this.partnerId);
-      this.packageService.packagesSubject.subscribe(data => {
-        this.packages = data.map(Package.fromJson);
+      this.packageService.packagesSubject.subscribe(pkgs => {
+        this.packages = pkgs.map(Package.fromJson);
       });
-      this.packageService.servicesSubject.subscribe((data) => {
-        this.services = data.map(ServiceModel.fromJson);
+      this.packageService.servicesSubject.subscribe(svcs => {
+        this.services = svcs.map(ServiceModel.fromJson);
       });
     });
-
   }
 
-  showAllRegions = false;
-
-  toggleShowAllRegions() {
+  toggleShowAllRegions(): void {
     this.showAllRegions = !this.showAllRegions;
   }
 
-  showAddForm = false;
-
   onSubmit(form: NgForm) {
-    if (form.valid) {
-      const value = form.value;
-
-      const newPackage = new Package(
-        this.generateUUID(),
-        parseFloat(value.vat) || 0,
-        value.country || '',
-        value.countryCode || '',
-        value.city || '',
-        value.packageName || '',
-        value.currency || '',
-        value.active || false,
-        value.duration || '',
-        value.packageDescription || '',
-        value.privateCars || '',
-        value.vansOrSimilar || '',
-        value.suvs || '',
-        value.caravans || '',
-        [], // service
-        [], // stock
-        this.selectedRegion ? [this.selectedRegion] : [], // region
-        {}, // price
-        [] // questions
-      );
-
-      this.packageService.addPackage(this.partnerId, newPackage);
-      this.showAddForm = false;
-      form.reset();
+    if (!form.valid) {
+      return;
     }
-  }
+    const v = form.value;
+    const regions = Array.isArray(this.extraDetails.regionData)
+      ? this.extraDetails.regionData
+      : [];
 
-  generateUUID(): string {
-    // Basic UUID generator (for demo)
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0,
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
+    const newPackage = new Package(
+      '',
+      parseFloat(v.vat) || 0,
+      v.country || '',
+      v.countryCode || '',
+      v.city || '',
+      v.packageName || '',
+      v.currency || '',
+      v.active || false,
+      v.duration || '',
+      v.packageDescription || '',
+      v.privateCars || '',
+      v.vansOrSimilar || '',
+      v.suvs || '',
+      v.caravans || '',
+      [],
+      [],
+      regions,
+      {},
+      []
+    );
 
-  onRegionChange(region: any): void {
-    this.selectedRegion = region;
-    this.packageService.getServicesByRegion(region);
-  }
-  
-
-
-  addPackage(pkg: Package) {
-    this.packageService.addPackage(this.partnerId, pkg);
+    this.packageService.addPackage(this.partnerId, newPackage);
+    this.showAddForm = false;
+    form.reset();
   }
 
   goBack(): void {
     this.router.navigate(['/dashboard/partners']);
+  }
+
+  deletePackage(pkgId: string): void {
+    this.packageService.deletePkg(pkgId, this.partnerId);
   }
 
   defaultPhoto: string = 'assets/default_pic.png';
