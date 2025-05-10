@@ -91,3 +91,31 @@ button:hover {
 button[type="submit"] {
   align-self: flex-end;
 }
+
+.chip {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 4px 4px 4px 0;
+  background-color: #e0f2ff;
+  color: #0277bd;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  cursor: default;
+  transition: background-color 0.2s;
+}
+
+.chip:hover {
+  background-color: #b3e5fc;
+}
+
+.toggle-chip {
+  background-color: #0277bd;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.toggle-chip:hover {
+  background-color: #01579b;
+}
+

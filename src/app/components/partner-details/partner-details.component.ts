@@ -54,39 +54,45 @@ export class PartnerDetailsComponent {
 
   }
 
-    showAddForm = false;
+  showAllRegions = false;
 
-    onSubmit(form: NgForm) {
-      if (form.valid) {
-        const value = form.value;
+  toggleShowAllRegions() {
+    this.showAllRegions = !this.showAllRegions;
+  }
 
-        const newPackage = new Package(
-          this.generateUUID(), // generate ID
-          parseFloat(value.vat) || 0,
-          value.country || '',
-          value.countryCode || '',
-          value.city || '',
-          value.packageName || '',
-          value.currency || '',
-          value.active || false,
-          value.duration || '',
-          value.packageDescription || '',
-          value.privateCars || '',
-          value.vansOrSimilar || '',
-          value.suvs || '',
-          value.caravans || '',
-          [], // service
-          [], // stock
-          this.selectedRegion ? [this.selectedRegion] : [], // region
-          {}, // price
-          [] // questions
-        );
+  showAddForm = false;
 
-        this.packageService.addPackage(this.partnerId, newPackage);
-        this.showAddForm = false;
-        form.reset();
-      }
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      const value = form.value;
+
+      const newPackage = new Package(
+        this.generateUUID(),
+        parseFloat(value.vat) || 0,
+        value.country || '',
+        value.countryCode || '',
+        value.city || '',
+        value.packageName || '',
+        value.currency || '',
+        value.active || false,
+        value.duration || '',
+        value.packageDescription || '',
+        value.privateCars || '',
+        value.vansOrSimilar || '',
+        value.suvs || '',
+        value.caravans || '',
+        [], // service
+        [], // stock
+        this.selectedRegion ? [this.selectedRegion] : [], // region
+        {}, // price
+        [] // questions
+      );
+
+      this.packageService.addPackage(this.partnerId, newPackage);
+      this.showAddForm = false;
+      form.reset();
     }
+  }
 
   generateUUID(): string {
     // Basic UUID generator (for demo)

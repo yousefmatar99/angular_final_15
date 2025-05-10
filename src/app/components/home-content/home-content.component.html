@@ -1,35 +1,56 @@
-<table>
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th>Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Customers</td>
-        <td>{{ stat_data["customersNum"] ? stat_data["customersNum"] : 0}}</td>
-      </tr>
-      <tr>
-        <td>Partners</td>
-        <td>{{ stat_data["partnersNum"] ? stat_data["partnersNum"] : 0 }}</td>
-      </tr>
-      <tr>
-        <td>Cars</td>
-        <td>{{ stat_data["carsNum"] ? stat_data["carsNum"] : 0 }}</td>
-      </tr>
-      <tr>
-        <td>Total Reservations</td>
-        <td>{{ stat_data["totalReservationsNum"] ? stat_data["totalReservationsNum"] : 0 }}</td>
-      </tr>
-      <tr>
-        <td>Closed Reservations</td>
-        <td>{{ stat_data["closedReservationsNum"] ? stat_data["closedReservationsNum"] : 0 }}</td>
-      </tr>
-      <tr>
-        <td>Problematic Reservations</td>
-        <td>{{ stat_data["problematicReservationsNum"] ? stat_data["problematicReservationsNum"] : 0 }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
+<div class="home-content">
+  <ng-container *ngIf="stat_data; else loading">
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Customers</h3>
+        <p>{{ stat_data.customersNum || 0 }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Partners</h3>
+        <p>{{ stat_data.partnersNum || 0 }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Cars</h3>
+        <p>{{ stat_data.carsNum || 0 }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Reservations</h3>
+        <p>{{ stat_data.totalReservationsNum || 0 }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Closed Reservations</h3>
+        <p>{{ stat_data.closedReservationsNum || 0 }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Problematic Reservations</h3>
+        <p>{{ stat_data.problematicReservationsNum || 0 }}</p>
+      </div>
+    </div>
+
+    <h4 class="chart-title">
+      Users (Total: {{ primaryData[0] + primaryData[1] }})
+    </h4>
+    <div class="bar-chart">
+      <div class="bar-wrapper" *ngFor="let pct of primaryPct; index as i">
+        <div class="bar" [style.height.%]="pct"></div>
+        <span class="bar-label">{{ primaryLabels[i] }}</span>
+        <span class="bar-value">{{ primaryData[i] }}</span>
+      </div>
+    </div>
+
+    <h4 class="chart-title">
+      Reservations (Total: {{ reservationData[0] }})
+    </h4>
+    <div class="bar-chart">
+      <div class="bar-wrapper" *ngFor="let pct of reservationPct; index as i">
+        <div class="bar" [style.height.%]="pct"></div>
+        <span class="bar-label">{{ reservationLabels[i] }}</span>
+        <span class="bar-value">{{ reservationData[i] }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading">Loading statistics…</div>
+  </ng-template>
+</div>
