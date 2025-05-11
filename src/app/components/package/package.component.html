@@ -7,18 +7,18 @@
     <p><strong>Country:</strong> {{ pkg.country }} ({{ pkg.countryCode }})</p>
     <p><strong>City:</strong> {{ pkg.city }}</p>
     <p><strong>Status:</strong> {{ pkg.active ? 'Active' : 'Inactive' }}</p>
-    <p><strong>Duration:</strong> {{ pkg.duration }} (hours)</p>
-    <p><strong>Description:</strong> {{ pkg.packageDescription || 'None' }}</p>
-    <p><strong>Cars:</strong> {{ pkg.privateCars }}</p>
-    <p><strong>Vans:</strong> {{ pkg.vansOrSimilar }}</p>
-    <p><strong>SUVs:</strong> {{ pkg.suvs }}</p>
-    <p><strong>Caravans:</strong> {{ pkg.caravans }}</p>
+    <p><strong>Duration:</strong> {{ pkg.extraDetails.duration }} (hours)</p>
+    <p><strong>Description:</strong> {{ pkg.extraDetails.packageDescription || 'None' }}</p>
+    <p><strong>Cars:</strong> {{ pkg.extraDetails.privateCars }}</p>
+    <p><strong>Vans:</strong> {{ pkg.extraDetails.vansOrSimilar }}</p>
+    <p><strong>SUVs:</strong> {{ pkg.extraDetails.suvs }}</p>
+    <p><strong>Caravans:</strong> {{ pkg.extraDetails.caravans }}</p>
 
-    <div *ngIf="pkg.price">
+    <div *ngIf="pkg.priceDTO.price">
       <p><strong>Currency:</strong> {{ pkg.currency }}</p>
-      <p><strong>Net Price:</strong> {{ pkg.price.netPrice ?? 'undefined' }}</p>
-      <p><strong>Total Price:</strong> {{ pkg.price.totalPr ?? 'undefined' }}</p>
-      <p><strong>Sale Price:</strong> {{ pkg.price.salePrice ?? 'undefined' }}</p>
+      <p><strong>Net Price:</strong> {{ pkg.priceDTO.netPrice ?? 'undefined' }}</p>
+      <p><strong>Total Price:</strong> {{ pkg.priceDTO.totalPrice }}</p>
+      <p><strong>Sale Price:</strong> {{ pkg.priceDTO.salePrice ?? 'undefined' }}</p>
       <p><strong>VAT:</strong> {{ pkg.vat }}</p>
     </div>
 

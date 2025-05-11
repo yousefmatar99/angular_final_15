@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Package } from '../models/package.model';
 import { ServiceModel } from '../models/service-model.model';
 import { Question } from '../models/question.model';
+import { Region } from '../models/region.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,9 +43,18 @@ export class PackageService extends DataService {
       .subscribe(() => this.fetchPackages(partnerId));
   }
 
-  getServicesByRegion(region: any): void {
-    this.http.post<any>(`${this.baseUrl}/store/services/get`, region)
-      .subscribe(data => this.servicesSubject.next(data));
+  getServicesByRegion(region: Region): void {
+    const payload = [ region.toJson() ];
+    this.http
+      .post<any[]>(`${this.baseUrl}/store/services/get`, payload)
+      .subscribe({
+        next: rawList => {
+          const models = Array.isArray(rawList)
+            ? rawList.map(item => ServiceModel.fromJson(item))
+            : [];
+          this.servicesSubject.next(models);
+        }
+      });
   }
 
   deletePkg(pkgId: string, partnerId: string): void {

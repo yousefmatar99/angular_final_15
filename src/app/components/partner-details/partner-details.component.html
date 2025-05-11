@@ -1,115 +1,238 @@
 <div class="partner-details-card" *ngIf="partner">
-    <div class="buttons">
-      <button (click)="goBack()">Back</button>
-    </div>
-    <h2>{{ partner.name }}</h2>
-    <img
-        [src]="partner.photoUrl || defaultPhoto"
-        (error)="setDefaultImage($event)"
-        alt="{{ partner.name }}"
-        class="partner-photo"
-        />
-    <p><strong>Email:</strong> {{ partner.email }}</p>
-    <p><strong>Phone:</strong> {{ partner.phoneNumber ? partner.phoneNumber : '-' }}</p>
-    <p><strong>Admin:</strong> {{ partner.isAdmin ? 'Yes' : 'No' }}</p>
-    <p><strong>Status:</strong>
-      <span *ngIf="!partner.isApproved">Waiting Approval</span>
-      <span *ngIf="partner.isApproved && partner.isSuspended">Suspended</span>
-      <span *ngIf="partner.isApproved && !partner.isSuspended">Active</span>
-    </p>
-    <p><strong>Language:</strong> {{ extraDetails.language }} </p>
-    <p><strong>Country:</strong> {{ extraDetails.regionData && extraDetails.regionData.length > 0 ? extraDetails.regionData[0]["country"] : 'N/A' }}</p>
-    <p><strong>Regions:</strong></p>
-   
-    <div *ngIf="extraDetails.regionData?.length; else noRegions">
-      <span
-        class="chip"
-        *ngFor="
-          let region of
-            (showAllRegions
-              ? extraDetails.regionData
-              : extraDetails.regionData.slice(0,3))
-        "
-      >
-        {{ region.city }}
-      </span>
-
-      <span
-        class="chip toggle-chip"
-        *ngIf="extraDetails.regionData.length > 3"
-        (click)="toggleShowAllRegions()"
-      >
-        {{ showAllRegions ? 'Show less' : 'See more...' }}
-      </span>
-    </div>
-
-    <ng-template #noRegions>
-      <p>No regions available.</p>
-    </ng-template>
-
-    <ng-template #noRegions>
-      <p><strong>City:</strong> N/A</p>
-    </ng-template>
-
-    <button (click)="showAddForm = !showAddForm" class="add-button">Add Package</button>
-
-    <div *ngIf="showAddForm" class="add-package-form">
-      <form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
-        <input name="packageName" ngModel required placeholder="Package Name" />
-        <input name="country" ngModel placeholder="Country" />
-        <input name="countryCode" ngModel placeholder="Country Code" />
-        <input name="city" ngModel placeholder="City" />
-        <input name="currency" ngModel placeholder="Currency" />
-        <input name="vat" type="number" ngModel placeholder="VAT" />
-        <input name="duration" ngModel placeholder="Duration" />
-        <input name="packageDescription" ngModel placeholder="Description" />
-        <input name="privateCars" ngModel placeholder="Private Cars" />
-        <input name="vansOrSimilar" ngModel placeholder="Vans" />
-        <input name="suvs" ngModel placeholder="SUVs" />
-        <input name="caravans" ngModel placeholder="Caravans" />
-    
-        <div class="checkbox-row">
-          <label for="active">Active</label>
-          <input id="active" name="active" type="checkbox" ngModel />
-        </div>
-        
-        <p>Region Select Not Working</p>
-        <div class="form-group">
-          <label for="regionSelect">Choose Region:</label>
-          <select
-            id="regionSelect"
-            class="form-control"
-            name="region">
-            <!-- [ngModel]="selectedRegion" -->
-            <!-- (ngModelChange)="onRegionChange($event)"> -->
-            <option *ngFor="let region of extraDetails.regionData" [ngValue]="region">
-              {{ region.name }}
-            </option>
-          </select>
-        </div>
-    
-        <div class="form-group" *ngIf="services.length > 0">
-          <label for="serviceSelect">Choose Service:</label>
-          <select
-            id="serviceSelect"
-            class="form-control"
-            name="service"
-            [(ngModel)]="selectedServiceId">
-            <option *ngFor="let service of services" [value]="service.id">
-              {{ service.name }}
-            </option>
-          </select>
-        </div>
-    
-        <button type="submit" [disabled]="!packageForm.valid">Submit</button>
-      </form>
-    </div>
-    
-
-    <app-package *ngIf="packages.length" [packages]="packages" [partnerId]="partnerId"></app-package>
-    <div *ngIf="!packages.length">
-      <p>No packages available for this partner.</p>
-    </div>
-
+  <div class="buttons">
+    <button (click)="goBack()">Back</button>
   </div>
-  
+
+  <h2>{{ partner.name || '' }}</h2>
+  <img
+    [src]="partner.photoUrl || defaultPhoto"
+    (error)="setDefaultImage($event)"
+    alt="{{ partner.name }}"
+    class="partner-photo"
+  />
+
+  <p><strong>Email:</strong> {{ partner.email }}</p>
+  <p><strong>Phone:</strong> {{ partner.phoneNumber || '-' }}</p>
+  <p><strong>Admin:</strong> {{ partner.isAdmin ? 'Yes' : 'No' }}</p>
+  <p><strong>Status:</strong>
+    <span *ngIf="!partner.isApproved">Waiting Approval</span>
+    <span *ngIf="partner.isApproved && partner.isSuspended">Suspended</span>
+    <span *ngIf="partner.isApproved && !partner.isSuspended">Active</span>
+  </p>
+
+  <p><strong>Language:</strong> {{ extraDetails.language }}</p>
+  <p>
+    <strong>Country:</strong>
+    {{
+      extraDetails.regionData.length
+        ? extraDetails.regionData[0].country
+        : 'N/A'
+    }}
+  </p>
+  <p><strong>Regions:</strong></p>
+  <div *ngIf="extraDetails.regionData.length; else noRegions">
+    <span
+      class="chip"
+      *ngFor="
+        let region of
+          (showAllRegions
+            ? extraDetails.regionData
+            : extraDetails.regionData.slice(0, 3))
+      "
+    >
+      {{ region.city }}
+    </span>
+    <span
+      class="chip toggle-chip"
+      *ngIf="extraDetails.regionData.length > 3"
+      (click)="toggleShowAllRegions()"
+    >
+      {{ showAllRegions ? 'Show less' : 'See more...' }}
+    </span>
+  </div>
+  <ng-template #noRegions>
+    <p>No regions available.</p>
+  </ng-template>
+
+    <button (click)="showAddForm = !showAddForm" class="add-button">
+    Add Package
+  </button>
+
+  <div *ngIf="showAddForm" class="add-package-form">
+    <form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
+      <div class="form-group">
+        <label>Package Name</label>
+        <input
+          type="text"
+          name="packageName"
+          ngModel
+          required
+          class="form-control"
+          placeholder="Package Name"
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Currency</label>
+          <input
+            type="text"
+            name="currency"
+            ngModel
+            required
+            class="form-control"
+            placeholder="Currency"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label>VAT (%)</label>
+          <input
+            type="number"
+            name="vat"
+            ngModel
+            required
+            class="form-control"
+            placeholder="VAT"
+          />
+        </div>
+        <div class="form-group col-md-4 form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="activeCheck"
+            name="active"
+            ngModel
+          />
+          <label class="form-check-label" for="activeCheck">Active</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Duration</label>
+        <input
+          type="text"
+          name="duration"
+          ngModel
+          required
+          class="form-control"
+          placeholder="Duration"
+        />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          name="packageDescription"
+          ngModel
+          required
+          class="form-control"
+          placeholder="Description"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label>Private Cars</label>
+          <input
+            type="text"
+            name="privateCars"
+            ngModel
+            class="form-control"
+            placeholder="Private Cars"
+          />
+        </div>
+        <div class="form-group col-md-3">
+          <label>Vans or Similar</label>
+          <input
+            type="text"
+            name="vansOrSimilar"
+            ngModel
+            class="form-control"
+            placeholder="Vans"
+          />
+        </div>
+        <div class="form-group col-md-3">
+          <label>SUVs</label>
+          <input
+            type="text"
+            name="suvs"
+            ngModel
+            class="form-control"
+            placeholder="SUVs"
+          />
+        </div>
+        <div class="form-group col-md-3">
+          <label>Caravans</label>
+          <input
+            type="text"
+            name="caravans"
+            ngModel
+            class="form-control"
+            placeholder="Caravans"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Number of Services</label>
+        <input
+          type="number"
+          name="numberOfServices"
+          ngModel
+          class="form-control"
+          placeholder="Number of Services"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Choose Region</label>
+        <select
+          class="form-control"
+          name="region"
+          ngModel
+          required
+          (ngModelChange)="onRegionChange($event)"
+        >
+          <option [ngValue]="null">-- select region --</option>
+          <option
+            *ngFor="let region of extraDetails.regionData"
+            [ngValue]="region"
+          >
+            {{ region.city }} ({{ region.countryCode }})
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="services.length">
+        <label>Choose Service</label>
+        <select
+          class="form-control"
+          name="service"
+          ngModel
+          required
+          [(ngModel)]="selectedService"
+        >
+          <option [ngValue]="null">-- select a service --</option>
+          <option *ngFor="let svc of services" [ngValue]="svc">
+            {{ svc.name }}
+          </option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!packageForm.valid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <app-package
+    *ngIf="packages.length"
+    [packages]="packages"
+    [partnerId]="partnerId"
+  ></app-package>
+  <div *ngIf="!packages.length">
+    <p>No packages available for this partner.</p>
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { CustomerComponent } from './components/customer/customer.component';
 import { PartnerDetailsComponent } from './components/partner-details/partner-details.component';
 import { PackageComponent } from './components/package/package.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
